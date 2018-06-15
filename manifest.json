@@ -15,7 +15,7 @@
   },
   "browser_action": {
     "default_icon": "ct.png",
-    "default_popup": "sketch/index.html",
+    "default_popup": "popup/index.html",
     "default_title": "Lookup a definition!"
   }
 }
