@@ -1,10 +1,12 @@
-window.addEventListener('mouseup', wordSelected)
+window.addEventListener('dblclick', wordSelected)
+window.addEventListener('mouseup', popPopup)
 
 let selection = window.getSelection()
 let popupHost = document.createElement('div')
 document.body.appendChild(popupHost)
+popupHost.addEventListener('mouseup', e => e.stopPropagation())
 
-function wordSelected () {
+function wordSelected (event) {
   selection = window.getSelection()
   let selectedText = selection.toString().trim()
   selectedText = selectedText.replace(/\s+/g, '_')
@@ -12,10 +14,14 @@ function wordSelected () {
   if (selectedText.length > 0) {
     let message = {
       type: 'wordSelection',
-      text: selectedText
+      from: event.target === def ? 'popup' : 'window'
     }
     browser.runtime.sendMessage(message)
-  } else {
+function popPopup () {
+  selection = window.getSelection()
+  let selectedText = selection.toString().trim()
+  selectedText = selectedText.replace(/\s+/g, '_')
+  if (selectedText.length === 0) {
     popupHost.innerHTML = ''
   }
 }

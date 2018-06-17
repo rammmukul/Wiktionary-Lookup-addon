@@ -14,6 +14,7 @@ function receiver (request, sender, sendResponse) {
   console.log(request)
   word = request.text
   word = word.toLowerCase()
+  let from = request.from
 
   let url = `https://en.wiktionary.org/api/rest_v1/page/definition/${word}`
   fetch(url, {
@@ -38,8 +39,10 @@ function receiver (request, sender, sendResponse) {
         sender.tab.id,
         {
           type: 'definition',
+          word,
           definition: definition,
-          url: `https://en.wiktionary.org/wiki/${word}`
+          url: `https://en.wiktionary.org/wiki/${word}`,
+          from
         }
       ).catch(onError)
     },
