@@ -25,7 +25,8 @@ function receiver (request, sender, sendResponse) {
     .then(data => {
       console.log('<>', JSON.stringify(data, null, 2))
       definition = JSON.stringify(data.en ? data.en[0].definitions[0].definition : 'No definition found')
-      definition = definition.replace(/href=\\"\/wiki\//g, 'target="_blank" href=https://en.wiktionary.org/wiki/')
+      definition = definition.replace(/<a href=\\"[a-zA-Z/#_:]+\\" title=\\"[a-zA-Z:]+\\">/g, '')
+      definition = definition.replace(/<\/a>/g, '')
       definition = definition.replace(/\\"/g, '')
       definition = definition.replace(/\\n/g, '<br>')
       definition = definition.replace(/^"/, '')
