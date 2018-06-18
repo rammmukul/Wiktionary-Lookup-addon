@@ -1,6 +1,5 @@
 window.addEventListener('dblclick', wordSelected)
 window.addEventListener('mouseup', popPopup)
-let scrollBarWidth = window.innerWidth - document.getElementsByTagName('html')[0].clientWidth
 
 let defStyle = {
   background: '#f4ecd8',
@@ -43,9 +42,12 @@ more.appendChild(anchor)
 document.body.appendChild(popupHost)
 popupHost.addEventListener('mouseup', e => e.stopPropagation())
 
+function getSelectedWord () {
+  return window.getSelection().toString().trim()
+}
+
 function wordSelected (event) {
-  selection = window.getSelection()
-  let selectedText = selection.toString().trim()
+  let selectedText = getSelectedWord()
   if (selectedText.length > 0) {
     let message = {
       type: 'wordSelection',
@@ -69,10 +71,7 @@ function wordSelected (event) {
 }
 
 function popPopup (event) {
-  selection = window.getSelection()
-  let selectedText = selection.toString().trim()
-  selectedText = selectedText.replace(/\s+/g, '_')
-  if (selectedText.length === 0) {
+  if (getSelectedWord().length === 0) {
     def.remove()
   } else {
     wordSelected(event)
@@ -100,6 +99,8 @@ function bubble (data) {
 function bound (element) {
   let rect = element.getBoundingClientRect()
   let bodyRect = document.body.getBoundingClientRect()
+  let scrollBarWidth = window.innerWidth - document.getElementsByTagName('html')[0].clientWidth
+  let scrollBarHeight = window.innerHeight - document.getElementsByTagName('html')[0].clientHeight
   if (rect.left < 0) {
     element.style.left = -bodyRect.left + 'px'
   }
@@ -107,6 +108,6 @@ function bound (element) {
     element.style.left = (window.innerWidth - rect.width - bodyRect.left - scrollBarWidth) + 'px'
   }
   if (rect.bottom > window.innerHeight) {
-    element.style.top = (window.innerHeight - rect.height - bodyRect.top - scrollBarWidth) + 'px'
+    element.style.top = (window.innerHeight - rect.height - bodyRect.top - scrollBarHeight) + 'px'
   }
 }
