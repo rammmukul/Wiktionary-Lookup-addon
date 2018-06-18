@@ -11,44 +11,30 @@ async function init () {
   document.getElementById('word').innerHTML = word || 'Word'
   document.getElementById('submit').onclick = query
   document.getElementById('input').oninput = schedule
-  window.onload = function() {
+  window.onload = function () {
     document.getElementById('input').focus()
   }
+  window.addEventListener('mouseup', () => {
+    document.getElementById('input').value = getSelectedWord()
+    schedule()
+  })
 }
 
-function query () {
+async function query () {
   let word = document.getElementById('input').value
-  let url = `https://en.wiktionary.org/api/rest_v1/page/definition/${word.toLowerCase().replace(/\s+/g, '_')}`
-  fetch(url, {
-    headers: new Headers({
-      'Api-User-Agent': 'notarama'
-    })
-  })
-    .then(data => data.json())
-    .then(data => {
-      let definition = JSON.stringify(data.en ? data.en[0].definitions[0].definition : 'No definition found')
-      definition = definition.replace(/<a .*?>/g, '')
-      definition = definition.replace(/<\/a>/g, '')
-      definition = definition.replace(/\\"/g, '')
-      definition = definition.replace(/\\n/g, '<br>')
-      definition = definition.replace(/^"/, '')
-      definition = definition.replace(/"$/, '<br>')
-      document.getElementById('definition').innerHTML = definition
-      document.getElementById('word').innerText = word
-      console.log(word, definition)
-    },
-    err => console.log(err))
+  let message = {
+    type: 'wordSelection',
+    text: word
+  }
+  let def = await browser.runtime.sendMessage(message)
+  document.getElementById('definition').innerHTML = def.definition
+  document.getElementById('word').innerText = def.word
 }
 
 function schedule () {
   clearTimeout(schedule)
   scheduled = setTimeout(() => query(), 500)
 }
-
-window.addEventListener('mouseup', () => {
-  document.getElementById('input').value = getSelectedWord()
-  schedule()
-})
 
 function getSelectedWord () {
   return window.getSelection().toString().trim()
