@@ -46,7 +46,6 @@ popupHost.addEventListener('mouseup', e => e.stopPropagation())
 function wordSelected (event) {
   selection = window.getSelection()
   let selectedText = selection.toString().trim()
-  selectedText = selectedText.replace(/\s+/g, '_')
   if (selectedText.length > 0) {
     let message = {
       type: 'wordSelection',
@@ -69,12 +68,14 @@ function wordSelected (event) {
   }
 }
 
-function popPopup () {
+function popPopup (event) {
   selection = window.getSelection()
   let selectedText = selection.toString().trim()
   selectedText = selectedText.replace(/\s+/g, '_')
   if (selectedText.length === 0) {
     def.remove()
+  } else {
+    wordSelected(event)
   }
 }
 
