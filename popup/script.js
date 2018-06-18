@@ -46,9 +46,11 @@ function schedule () {
   scheduled = setTimeout(() => query(), 500)
 }
 
-window.addEventListener('dblclick', () => {
-  selection = window.getSelection()
-  let selectedText = selection.toString().trim()
-  document.getElementById('input').value = selectedText
-  query()
+window.addEventListener('mouseup', () => {
+  document.getElementById('input').value = getSelectedWord()
+  schedule()
 })
+
+function getSelectedWord () {
+  return window.getSelection().toString().trim()
+}
