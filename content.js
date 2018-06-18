@@ -1,5 +1,6 @@
 window.addEventListener('dblclick', wordSelected)
 window.addEventListener('mouseup', popPopup)
+let scrollBarWidth = window.innerWidth - document.getElementsByTagName('html')[0].clientWidth
 
 let selection = window.getSelection()
 let popupHost = document.createElement('div')
@@ -86,10 +87,10 @@ function bound (element) {
   if (rect.left < 0) {
     element.style.left = -bodyRect.left + 'px'
   }
-  if (rect.right > bodyRect.right) {
-    element.style.left = (bodyRect.width - rect.width) + 'px'
+  if (rect.right > window.innerWidth) {
+    element.style.left = (window.innerWidth - rect.width - scrollBarWidth) + 'px'
   }
-  if (rect.bottom > bodyRect.bottom) {
-    element.style.top = (bodyRect.height - rect.height) + 'px'
+  if (rect.bottom > window.innerHeight) {
+    element.style.top = (window.innerHeight - rect.height - scrollBarWidth) + 'px'
   }
 }
