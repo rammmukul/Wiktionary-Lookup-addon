@@ -1,4 +1,3 @@
-
 init()
 let scheduled
 
@@ -29,7 +28,8 @@ function query () {
     .then(data => data.json())
     .then(data => {
       let definition = JSON.stringify(data.en ? data.en[0].definitions[0].definition : 'No definition found')
-      definition = definition.replace(/href=\\"\/wiki\//g, 'target="_blank" href=https://en.wiktionary.org/wiki/')
+      definition = definition.replace(/<a .*?>/g, '')
+      definition = definition.replace(/<\/a>/g, '')
       definition = definition.replace(/\\"/g, '')
       definition = definition.replace(/\\n/g, '<br>')
       definition = definition.replace(/^"/, '')
@@ -45,3 +45,10 @@ function schedule () {
   clearTimeout(schedule)
   scheduled = setTimeout(() => query(), 500)
 }
+
+window.addEventListener('dblclick', () => {
+  selection = window.getSelection()
+  let selectedText = selection.toString().trim()
+  document.getElementById('input').value = selectedText
+  query()
+})
