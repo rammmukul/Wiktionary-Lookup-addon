@@ -13,10 +13,9 @@ function receiver (request, sender, sendResponse) {
   if (request.type !== 'wordSelection') return
   console.log(request)
   word = request.text
-  word = word.toLowerCase()
   let from = request.from
 
-  let url = `https://en.wiktionary.org/api/rest_v1/page/definition/${word.replace(/\s+/g, '_')}`
+  let url = `https://en.wiktionary.org/api/rest_v1/page/definition/${word.toLowerCase().replace(/\s+/g, '_')}`
   fetch(url, {
     headers: new Headers({
       'Api-User-Agent': 'notarama'
@@ -41,7 +40,7 @@ function receiver (request, sender, sendResponse) {
           type: 'definition',
           word,
           definition: definition,
-          url: `https://en.wiktionary.org/wiki/${word.replace(/\s+/g, '_')}`,
+          url: `https://en.wiktionary.org/wiki/${word.toLowerCase().replace(/\s+/g, '_')}`,
           from
         }
       ).catch(onError)

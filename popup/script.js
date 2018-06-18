@@ -18,8 +18,7 @@ async function init () {
 
 function query () {
   let word = document.getElementById('input').value
-  word = word.replace(/\s+/g, '_')
-  let url = `https://en.wiktionary.org/api/rest_v1/page/definition/${word}`
+  let url = `https://en.wiktionary.org/api/rest_v1/page/definition/${word.toLowerCase().replace(/\s+/g, '_')}`
   fetch(url, {
     headers: new Headers({
       'Api-User-Agent': 'notarama'
@@ -35,7 +34,7 @@ function query () {
       definition = definition.replace(/^"/, '')
       definition = definition.replace(/"$/, '<br>')
       document.getElementById('definition').innerHTML = definition
-      document.getElementById('word').innerHTML = word.replace(/_/g, ' ')
+      document.getElementById('word').innerText = word
       console.log(word, definition)
     },
     err => console.log(err))
