@@ -46,7 +46,7 @@ function getSelectedWord () {
   return window.getSelection().toString().trim()
 }
 
-function wordSelected (event) {
+async function wordSelected (event) {
   let selectedText = getSelectedWord()
   if (selectedText.length > 0) {
     let message = {
@@ -54,7 +54,6 @@ function wordSelected (event) {
       text: selectedText,
       from: event.target === definition ? 'popup' : 'window'
     }
-    browser.runtime.sendMessage(message)
     word.remove()
     definition.remove()
     more.remove()
@@ -67,6 +66,7 @@ function wordSelected (event) {
       def.style.top = 'calc(' + (rect.top + rect.height + window.scrollY) + 'px + .5em)'
       bound(def)
     }
+    bubble(await browser.runtime.sendMessage(message))
   }
 }
 
@@ -77,8 +77,6 @@ function popPopup (event) {
     wordSelected(event)
   }
 }
-
-browser.runtime.onMessage.addListener(bubble)
 
 function bubble (data) {
   if (data.type !== 'definition') return
