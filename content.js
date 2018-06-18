@@ -13,10 +13,12 @@ def.style.width = '30em'
 def.style.boxShadow = '1px 1px 5px black'
 def.style.zIndex = '9999'
 def.style.overflowWrap = 'break-word'
+let definition = document.createElement('div')
 document.body.appendChild(popupHost)
 popupHost.addEventListener('mouseup', e => e.stopPropagation())
 
 function wordSelected (event) {
+  console.log('target', event.target, event.currentTarget)
   selection = window.getSelection()
   let selectedText = selection.toString().trim()
   selectedText = selectedText.replace(/\s+/g, '_')
@@ -24,12 +26,12 @@ function wordSelected (event) {
     let message = {
       type: 'wordSelection',
       text: selectedText,
-      from: event.target === def ? 'popup' : 'window'
+      from: event.target === definition ? 'popup' : 'window'
     }
     browser.runtime.sendMessage(message)
     def.innerHTML = '<div style="background-color: #f4ecd8;">Loading...</div>'
     popupHost.appendChild(def)
-    if (event.target !== def) {
+    if (event.target !== definition) {
       let range = selection.getRangeAt(0)
       let rect = range.getBoundingClientRect()
       def.style.left = 'calc(' + (rect.left + window.scrollX + rect.width / 2) + 'px - 15em)'
@@ -57,7 +59,6 @@ function bubble (data) {
   word.style.padding = '.2rem'
   word.style.fontWeight = 'bold'
   word.innerText = data.word
-  let definition = document.createElement('div')
   definition.innerHTML = data.definition
   let more = document.createElement('div')
   let anchor = document.createElement('a')
