@@ -22,6 +22,7 @@ async function receiver (request) {
   definition = JSON.stringify(data.en ? data.en[0].definitions[0].definition : 'No definition found')
   definition = definition.replace(/<.*?>/g, '')
   definition = definition.replace(/\\"/g, '')
+  definition = definition.replace(/\\n/g, '\n')
   definition = definition.replace(/^"/, '')
   definition = definition.replace(/"$/, '')
   window.word = word
