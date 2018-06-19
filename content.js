@@ -81,7 +81,7 @@ function popPopup (event) {
 function bubble (data) {
   if (data.type !== 'definition') return
   word.innerText = data.word
-  definition.innerHTML = data.definition
+  definition.innerText = data.definition
   anchor.innerText = 'more >>>'
   anchor.setAttribute('href', data.url)
   loading.remove()

@@ -6,8 +6,8 @@ async function init () {
   let word = bgpage.word
   let defiintion = bgpage.definition
 
-  document.getElementById('definition').innerHTML = defiintion || 'Definition'
-  document.getElementById('word').innerHTML = word || 'Word'
+  document.getElementById('definition').innerText = defiintion || 'Definition'
+  document.getElementById('word').innerText = word || 'Word'
   document.getElementById('submit').onclick = query
   document.getElementById('input').oninput = schedule
   window.onload = function () {
@@ -26,7 +26,7 @@ async function query () {
     text: word
   }
   let def = await browser.runtime.sendMessage(message)
-  document.getElementById('definition').innerHTML = def.definition
+  document.getElementById('definition').innerText = def.definition
   document.getElementById('word').innerText = def.word
 }
 
