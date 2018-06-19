@@ -5,7 +5,6 @@ async function init () {
   let bgpage = await browser.runtime.getBackgroundPage()
   let word = bgpage.word
   let defiintion = bgpage.definition
-  console.log('bgpage', bgpage)
 
   document.getElementById('definition').innerHTML = defiintion || 'Definition'
   document.getElementById('word').innerHTML = word || 'Word'
