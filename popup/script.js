@@ -17,6 +17,10 @@ async function init () {
     document.getElementById('input').value = getSelectedWord()
     schedule()
   })
+  window.addEventListener('touchend', () => {
+    document.getElementById('input').value = getSelectedWord()
+    schedule()
+  })
 }
 
 async function query () {

@@ -1,4 +1,4 @@
-window.addEventListener('dblclick', wordSelected)
+window.addEventListener('touchend', popPopup)
 window.addEventListener('mouseup', popPopup)
 
 let defStyle = {
@@ -24,7 +24,12 @@ let moreStyle = {
   cssFloat: 'right'
 }
 
-let selection = window.getSelection()
+let closeStyle = {
+  padding: '.2em',
+  color: '#dd5555',
+  cssFloat: 'right'
+}
+
 let popupHost = document.createElement('div')
 let loading = document.createElement('div')
 loading.innerText = 'Loading...'
@@ -39,6 +44,12 @@ Object.assign(more.style, moreStyle)
 let anchor = document.createElement('a')
 anchor.setAttribute('target', '_blank')
 more.appendChild(anchor)
+let close = document.createElement('a')
+close.setAttribute('href', '#')
+close.innerText = 'X'
+close.addEventListener('click', closePopup)
+Object.assign(close.style, closeStyle)
+def.appendChild(close)
 document.body.appendChild(popupHost)
 popupHost.addEventListener('mouseup', e => e.stopPropagation())
 
@@ -46,28 +57,30 @@ function getSelectedWord () {
   return window.getSelection().toString().trim()
 }
 
+function closePopup () {
+  def.remove()
+}
+
 async function wordSelected (event) {
   let selectedText = getSelectedWord()
-  if (selectedText.length > 0) {
-    let message = {
-      type: 'wordSelection',
-      text: selectedText,
-      from: event.target === definition ? 'popup' : 'window'
-    }
-    word.remove()
-    definition.remove()
-    more.remove()
-    def.appendChild(loading)
-    popupHost.appendChild(def)
-    if (event.target !== definition) {
-      let range = selection.getRangeAt(0)
-      let rect = range.getBoundingClientRect()
-      def.style.left = 'calc(' + (rect.left + window.scrollX + rect.width / 2) + 'px - 15em)'
-      def.style.top = 'calc(' + (rect.top + rect.height + window.scrollY) + 'px + .5em)'
-      bound(def)
-    }
-    bubble(await browser.runtime.sendMessage(message))
+  let message = {
+    type: 'wordSelection',
+    text: selectedText,
+    from: event.target === definition ? 'popup' : 'window'
   }
+  word.remove()
+  definition.remove()
+  more.remove()
+  def.appendChild(loading)
+  popupHost.appendChild(def)
+  if (event.target !== definition) {
+    let range = window.getSelection().getRangeAt(0)
+    let rect = range.getBoundingClientRect()
+    def.style.left = 'calc(' + (rect.left + window.scrollX + rect.width / 2) + 'px - 15em)'
+    def.style.top = 'calc(' + (rect.top + rect.height + window.scrollY) + 'px + .5em)'
+    bound(def)
+  }
+  bubble(await browser.runtime.sendMessage(message))
 }
 
 function popPopup (event) {
@@ -88,7 +101,6 @@ function bubble (data) {
   def.appendChild(word)
   def.appendChild(definition)
   def.appendChild(more)
-  popupHost.appendChild(def)
   if (data.from === 'window') {
     bound(def)
   }
