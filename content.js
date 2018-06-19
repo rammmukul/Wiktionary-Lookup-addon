@@ -4,6 +4,9 @@ window.addEventListener('mouseup', popPopup)
 let defStyle = {
   background: '#f4ecd8',
   color: '#502020',
+  maxWidth: '80vw',
+  maxHeight: '80vh',
+  overflow: 'auto',
   padding: '.5em',
   fontSize: '1rem',
   position: 'absolute',
