@@ -1,5 +1,6 @@
 window.addEventListener('touchend', popPopup)
 window.addEventListener('mouseup', popPopup)
+window.addEventListener('dblclick', popPopup)
 
 let defStyle = {
   background: '#f4ecd8',
