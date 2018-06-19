@@ -5,7 +5,7 @@ Using this addon you can select a word or phrase on a webpage to view it's defin
 1) Double click a word
 2) Click and drag to select a phrase
 
-Or click on 
+Or click on the addon icon in toolbar to enter a word manually.
 
 This addon is build according to <span title="WebExtensions are a way to write browser extensions: that is, programs installed inside a web browser that modify the behaviour of the browser or of web pages loaded by the browser. They are built on a set of cross-browser APIs, so WebExtensions written for Google Chrome or Opera will in most cases run in Firefox or Edge too.">WebExtensions specs.</span> [\(docs\)](https://developer.mozilla.org/en-US/Add-ons/WebExtensions)
 
