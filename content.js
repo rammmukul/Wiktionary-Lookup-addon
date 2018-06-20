@@ -1,4 +1,3 @@
-window.addEventListener('touchend', popPopup)
 window.addEventListener('mouseup', popPopup)
 window.addEventListener('dblclick', popPopup)
 
@@ -36,6 +35,7 @@ let closeStyle = {
   top: 0
 }
 
+let selectedText = getSelectedWord()
 let popupHost = document.createElement('div')
 let loading = document.createElement('div')
 loading.innerText = 'Loading...'
@@ -65,33 +65,36 @@ function getSelectedWord () {
 
 function closePopup () {
   def.remove()
+  selectedText = ''
 }
 
 async function wordSelected (event) {
-  let selectedText = getSelectedWord()
-  let message = {
-    type: 'wordSelection',
-    text: selectedText,
-    from: event.target === definition ? 'popup' : 'window'
+  if (selectedText !== getSelectedWord()) {
+    selectedText = getSelectedWord()
+    let message = {
+      type: 'wordSelection',
+      text: selectedText,
+      from: event.target === definition ? 'popup' : 'window'
+    }
+    word.remove()
+    definition.remove()
+    more.remove()
+    def.appendChild(loading)
+    popupHost.appendChild(def)
+    if (event.target !== definition) {
+      let range = window.getSelection().getRangeAt(0)
+      let rect = range.getBoundingClientRect()
+      def.style.left = 'calc(' + (rect.left + window.scrollX + rect.width / 2) + 'px - 15em)'
+      def.style.top = 'calc(' + (rect.top + rect.height + window.scrollY) + 'px + .5em)'
+      bound(def)
+    }
+    bubble(await browser.runtime.sendMessage(message))
   }
-  word.remove()
-  definition.remove()
-  more.remove()
-  def.appendChild(loading)
-  popupHost.appendChild(def)
-  if (event.target !== definition) {
-    let range = window.getSelection().getRangeAt(0)
-    let rect = range.getBoundingClientRect()
-    def.style.left = 'calc(' + (rect.left + window.scrollX + rect.width / 2) + 'px - 15em)'
-    def.style.top = 'calc(' + (rect.top + rect.height + window.scrollY) + 'px + .5em)'
-    bound(def)
-  }
-  bubble(await browser.runtime.sendMessage(message))
 }
 
 function popPopup (event) {
   if (getSelectedWord().length === 0) {
-    def.remove()
+    closePopup()
   } else {
     wordSelected(event)
   }
