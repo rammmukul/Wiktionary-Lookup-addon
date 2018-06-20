@@ -43,6 +43,9 @@ let popupHost = document.createElement('div')
 let loading = document.createElement('div')
 loading.innerText = 'Loading...'
 loading.style.backgroundColor = '#f4ecd8'
+let errorLoading = document.createElement('div')
+errorLoading.innerText = 'Could not load the definition.'
+errorLoading.style.backgroundColor = '#f4ecd8'
 let def = document.createElement('div')
 Object.assign(def.style, defStyle)
 let word = document.createElement('div')
@@ -79,6 +82,7 @@ async function wordSelected (event) {
       text: selectedText,
       from: event.target === definition ? 'popup' : 'window'
     }
+    errorLoading.remove()
     word.remove()
     definition.remove()
     more.remove()
@@ -91,7 +95,13 @@ async function wordSelected (event) {
       def.style.top = 'calc(' + (rect.top + rect.height + window.scrollY) + 'px + .5em)'
       bound(def)
     }
-    bubble(await browser.runtime.sendMessage(message))
+    try {
+      bubble(await browser.runtime.sendMessage(message))
+    } catch (error) {
+      loading.remove()
+      def.appendChild(errorLoading)
+      setTimeout(closePopup, 3000)
+    }
   }
 }
 
