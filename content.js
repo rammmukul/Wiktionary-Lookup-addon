@@ -31,7 +31,9 @@ let moreStyle = {
 let closeStyle = {
   padding: '.2em',
   color: '#dd5555',
-  cssFloat: 'right'
+  cssFloat: 'right',
+  position: 'sticky',
+  top: 0
 }
 
 let popupHost = document.createElement('div')
