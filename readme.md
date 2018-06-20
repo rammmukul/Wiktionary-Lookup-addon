@@ -3,7 +3,8 @@
 Using this add-on you can select a word or phrase on a web page to view it's definition/meaning.You can either... 
  
 1) Double click a word 
-2) Click and drag to select a phrase 
+2) Click and drag to select a phrase
+3) Double tap on touch devices
  
 Or click on the add-on icon in tool bar to enter a word manually. 
  
