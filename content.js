@@ -57,7 +57,6 @@ let anchor = document.createElement('a')
 anchor.setAttribute('target', '_blank')
 more.appendChild(anchor)
 let close = document.createElement('a')
-close.setAttribute('href', '#')
 close.innerText = 'X'
 close.addEventListener('click', closePopup)
 Object.assign(close.style, closeStyle)
