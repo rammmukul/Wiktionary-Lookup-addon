@@ -40,7 +40,7 @@ If you find a problem, please [file a bug](https://github.com/rammmukul/Wiktiona
  
 ## Contributing 
  
-We welcome contributions, whether they are whole new features or 
+Contributions are welcome, whether they are whole new features or 
 bug fixes. 
  
 For an index of some example add-ons, see the ["Example extensions" page on MDN](https://developer.mozilla.org/Add-ons/WebExtensions/Examples). 
